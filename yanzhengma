@@ -1,5 +1,5 @@
 <?php
-    function vcode($imm=5,$number=4,$size=20,$width=0,$height=0,$num='0123456789qwertyuiopasdfghLKJZCCLKVJBJSIODF',$font=array('HaTian-JingZhi.ttf','TTENuoJ_0.ttf')){
+    function vcode($simm=5,$number=4,$size=20,$width=0,$height=0,$num='0123456789qwertyuiopasdfghLKJZCCLKVJBJSIODF',$font=array('HaTian-JingZhi.ttf','TTENuoJ_0.ttf')){
        if($width==0){
 		   $width=($number+1)*$size;
 	   }
@@ -22,31 +22,35 @@
 		  
 		  imagettftext($im,$size,rand(-10,10),$wx,$wy,$randcolor1,$font[rand(0,$fontMax)],$code);		  
 	  }	
+	      
+		$p = $size*10;//干扰点个数
+		for($j=0;$j < $p ; $j++){
+			$diancolor=imagecolorallocate($im,rand(0,160),rand(0,160),rand(0,160));//给干扰点设置颜色
+			$wwx = rand(0,$width);
+			$wwy = rand(0,$height);
+			imagesetpixel($im,$wwx,$wwy,$diancolor);
+		}
+		for($k=0;$k<$simm;$k++){//循环输出干扰点
+			$diancolor=imagecolorallocate($im,rand(0,160),rand(0,160),rand(0,160));//给干扰线设置颜色
+			$cx = rand(0,300);
+			$cy = rand(0,300);
+			$w = rand(0,250);
+			$h = rand(0,150);
+			$s = rand(0,360);
+			$e = rand(0,360);
+			imagearc($im,$cx,$cy,$w,$h,$s,$e,$diancolor);//在画布上面画弧形
+		}
+	  
         if(!isset($_SESSION)){
 			session_start();
 		}	  
-		$_SESSION['vcode'] = $vcode;
-		ob_clean();
+		$_SESSION['vcode'] = $vcode;//将验证码字符串保存到$_SESSION中
+		ob_clean();//清除之前输出
 		header("Content-type: image/png; charset=utf-8");
 		imagepng($im);
-		imagedestroy($im);
+		imagedestroy($im);//销毁图片资源
 	}
-	 // $pn=$size*100;
-	 // for($j=0;$j<$pn;$j++){
-		 // $randcolor = imagecolorallocate($im,rand(0,80),rand(0,80),rand(0,80));
-		 // $wwx = rand(0,$width);
-		 // $wwy = rand(0,$hieght);
-		 // imagesetpixel($im,$wwx.$wwy,$randcolor);
-	 // }
-	    // for($k=0;$k<$immm;$k++){
-			// $randcolor = imagecolorallocate($im,rand(0,80),rand(0,80),rand(0,80));
-			// $cx = rand(0,300);
-			// $cy = rand(0,300);
-			// $w = rand(0,250);
-			// $h = rand(0,150);
-			// $s = rand(0,360);
-			// $e = rand(0,360);
-			// imagearc($im,$cx,$cy,$w,$h,$e,$randcolor);
+	 
 		
-	vcode(5);
+	vcode(100,5,20);//干扰线、验证码个数、字体大小
 ?>
