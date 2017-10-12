@@ -1,0 +1,36 @@
+<?php
+    header("Content-type: text/html; charset=utf-8");
+	$_SESSION['mysqli'] = mysqli_connect('localhost','root','','lzm');
+	mysqli_query($_SESSION['mysqli'],'set name utf-8');
+	 if(mysqli_connect_errno($_SESSION['mysqli'])){
+		 echo '连接失败' .mysqli_connect_errno();
+	 }else{
+		 echo '连接成功';
+		 
+		 $data1 = $_POST['title'];
+		 $data2 = $_POST['con'];
+		 $data3 = $_POST['id'];
+		 
+		 echo $sql = "insert into lzl(id,title,con,cid) value (null,'$data1','$data2','$data3')";
+		 $res = mysqli_query($_SESSION['mysqli'],$sql);
+		 if($res||$res['num_rows']>0){
+			 echo '成功';
+		 }
+	 }
+	 // $_SESSION['mysqli'] = mysqli_connect('localhost','root','','lzm');
+	 // mysqli_query($_SESSION['mysqli'],'set name utf8');
+	 // if(mysqli_connect_errno($_SESSION['mysqli'])){
+		 // echo '连接失败：' . mysqli_connect_errno();
+	 // }else{
+		 // echo '连接成功';
+		 
+		 // echo $sql = "select cid from news where cid=9";
+		 // $res = mysqli_query($_SESSION['mysqli'],$sql);
+		   // var_dump($res);die;
+		   // var_dump(mysqli_fetch_assoc($res));
+		   // if($res||$res['num_rows']>0){
+			   // echo '成功';
+		   // }
+	 // }
+	  
+?>
