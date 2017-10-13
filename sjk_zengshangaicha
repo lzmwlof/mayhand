@@ -1,0 +1,68 @@
+首页：
+<!doctype html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+   <title>888</title>
+   <style type="text/css">
+     *{margin:0 auto;}
+	 body{text-align:center;}   
+   </style>
+</head>
+<body>
+    <h2>首页</h2>
+      <tr>
+	    <td>标题</td>
+	    <td>分类ID</td>
+		<td>内容</td>
+	  </tr>
+	  <br/>
+	 <a href="add.html">添加</a><br/>
+	 <a href="revise.html">修改</a>
+</body>
+</html>
+
+添加：
+<!doctype html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+   <title>888</title>
+   <style type="text/css">
+     *{margin:0 auto;}
+	 body{text-align:center;}   
+   </style>
+</head>
+<body>
+     <h2>添加</h2>
+     <form action="news.php" method="post">
+	    标题:<input type="text" name="title"><br/>
+		分类ID:<input type="text" name="id"><br/>
+	     内容:<textarea rows="5" cols="50" name="con"></textarea><br/>
+		 <input type="submit" value="提交"><br/>		
+	 </form>
+</body>
+</html>
+
+修改：
+  <!doctype html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+   <title>888</title>
+   <style type="text/css">
+     *{margin:0 auto;}
+	 body{text-align:center;}   
+   </style>
+</head>
+<body>
+     <h2>修改</h2>
+     <form action="news.php" method="post">
+	    标题:<input type="text" name="title"><br/>
+		分类ID:<input type="text" name="id"><br/>
+	     内容:<textarea rows="5" cols="50" name="con"></textarea><br/>
+		 <input type="submit" value="提交"><br/>		
+	 </form>
+	    
+</body>
+</html>
