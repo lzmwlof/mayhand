@@ -1,5 +1,6 @@
 <?php
-    header("Content-type: text/html; charset=utf-8");
+   header("Content-type: text/html; charset=utf-8");
+	include_once('news'.'.html');
 	$_SESSION['mysqli'] = mysqli_connect('localhost','root','','lzm');
 	mysqli_query($_SESSION['mysqli'],'set name utf-8');
 	 if(mysqli_connect_errno($_SESSION['mysqli'])){
@@ -9,12 +10,14 @@
 		 
 		 $data1 = $_POST['title'];
 		 $data2 = $_POST['con'];
-		 $data3 = $_POST['id'];
+		 $data3 = $_POST['cid'];
 		 
-		 echo $sql = "insert into lzl(id,title,con,cid) value (null,'$data1','$data2','$data3')";
-		 $res = mysqli_query($_SESSION['mysqli'],$sql);
-		 if($res||$res['num_rows']>0){
-			 echo '成功';
+		  echo $sql = "insert into lzl(title,con,cid) value ('$data1','$data2','$data3')";
+		  $res = mysqli_query($_SESSION['mysqli'],$sql);
+		 if($res){
+			  echo '成功';
+		 }else{
+			 echo '失败';
 		 }
 	 }
 	 // $_SESSION['mysqli'] = mysqli_connect('localhost','root','','lzm');
@@ -32,5 +35,38 @@
 			   // echo '成功';
 		   // }
 	 // }
+	  function add($table,$date){
+		  $feild = '';//声明保存要添加内容的字段的字符串变量
+		  $values = '';//声明保存对应字段的添加的内容的字符串变量
+		  if(!is_array($date)){//如果传的参数不是数组
+			  return false;//返回假并跳回函数
+		  }
+		  foreach ($date as $key =>$value){//遍历数组参数
+			  $feild.=$key.',';//将键拼接上逗号后拼接进字段字符串
+			  $values.="'".$value."',";//将值拼接上逗号后拼接进内容字符串
+		  }
+		  $feild = rtrim($feild,',');//调用函数rtrim去掉字符串右边的逗号(,)
+		  $values = rtrim($value,','); //调用函数rtrim去掉字符串右边的逗号(,)
+		  $sql="insert into $table ($feild) values ($values)";//组装sql语句
+		  $result = mysqli_query($_SESSION['mysqli'],$sql);//执行sql,返回值为false或受影响的条数
+		  if($result){//如果成功
+			  return mysqli_insert_id($_SESSION['mysqli']);//获取新增的那一条数据的id
+		  }else{//如果失败
+			  return false;//返回假并跳出函数
+		  }
+	  }
 	  
+	  
+	  function edit($table,$date,$where){
+		  $set= '';
+		  if(!is_array($date)){
+			  return false;
+		  }
+		  foreach ($date as $key =>$value){
+			  $set.=$key."=.".$value."',";
+		  }
+		  $set=rtrim($set,',');
+		  $sql="update $table set $set where $where";
+		  return mysqli_query($_SESSION['mysqli'],$sql);
+	  }
 ?>
