@@ -1,0 +1,60 @@
+<!doctype htm>
+<html>
+<head>
+ <meta charset="utf-8"/>
+ <title>二级分类</title>
+ <style type="text/css"></style>
+</head>
+<body>
+   <ul>
+   <?php foreach($erji as $key=>$item): ?>
+      <li><?php echo $item['naem']; ?></li>
+	  <?php if(is_array($item['sub'])): ?>
+	    <ul>
+		 <?php foreach($item['sub'] as $value): ?>
+		  <li> <?php echo $value['naem']; ?></li>
+		  <?php endforeach ?>
+		</ul>	  
+		<?php endif; ?>
+		<?php endforeach ?>
+   </ul>
+   <script type="text/javascript"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+<?php
+   $co = mysqli_connect('localhost','root','','lzm');//连接数据库
+    mysqli_query($co,'set charset utf8');
+	 if($co){
+		 echo '数据库连接成功';
+	 }else{
+		 echo '数据库连接失败';
+	 }
+     $qli = "select * from fenlei";
+	  $conten = mysqli_query($co,$qli);
+	  // print_r($conten);
+	 $parent_data = array();//给父级定义一个空数组
+	 $sub_data = array();//给子级定义一个空数组
+	 while($row = mysqli_fetch_assoc($conten)){
+		 if($row['pid']==0){//如果pid等于0
+			 $parent_data[$row['id']]=$row;//则对应的数据给父级
+		 }else{
+			 $sub_data[$row['id']]=$row;//则对应的数据给子级
+		 }
+	 }
+	 //遍历子级分类，将子级分类存放到对应的父级中
+	 foreach($sub_data as $key =>$sub){
+		 $parent_data[$sub['pid']]['sub'][] = $sub;
+	 }
+	 //print_r($parent_data);
+	 $erji = $parent_data;
+	 
+	 require 'erji.html';
+?>
